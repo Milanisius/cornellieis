@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Cornellieis
+Comment=Cornellieis P2P Cryptocurrency
+Comment[fr]=Cornellieis, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Cornellieis, eşten eşe kriptografik sanal para birimi
+Exec=cornellieis-qt %u
+Terminal=false
+Type=Application
+Icon=cornellieis128
+MimeType=x-scheme-handler/cornellieis;
+Categories=Office;Finance;

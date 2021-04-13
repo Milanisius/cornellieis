@@ -2,7 +2,7 @@ Release Process
 ====================
 
 * update translations (ping wumpus, Diapolo or tcatm on IRC)
-* see https://github.com/bitcoin/bitcoin/blob/master/doc/translation_process.md#syncing-with-transifex
+* see https://github.com/cornellieis/cornellieis/blob/master/doc/translation_process.md#syncing-with-transifex
 
 * * *
 
@@ -25,11 +25,11 @@ Release Process
 
 ##perform gitian builds
 
- From a directory containing the bitcoin source, gitian-builder and gitian.sigs
+ From a directory containing the cornellieis source, gitian-builder and gitian.sigs
   
 	export SIGNER=(your gitian key, ie bluematt, sipa, etc)
 	export VERSION=(new version, e.g. 0.8.0)
-	pushd ./bitcoin
+	pushd ./cornellieis
 	git checkout v${VERSION}
 	popd
 	pushd ./gitian-builder
@@ -66,90 +66,90 @@ Release Process
         wget 'https://raw.githubusercontent.com/theuni/osx-cross-depends/master/patches/cdrtools/genisoimage.diff' -O \
 	     cdrkit-deterministic.patch
 	cd ..
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/boost-linux.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/boost-linux.yml
 	mv build/out/boost-*.zip inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/deps-linux.yml
-	mv build/out/bitcoin-deps-*.zip inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/qt-linux.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/deps-linux.yml
+	mv build/out/cornellieis-deps-*.zip inputs/
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/qt-linux.yml
 	mv build/out/qt-*.tar.gz inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/boost-win.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/boost-win.yml
 	mv build/out/boost-*.zip inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/deps-win.yml
-	mv build/out/bitcoin-deps-*.zip inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/qt-win.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/deps-win.yml
+	mv build/out/cornellieis-deps-*.zip inputs/
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/qt-win.yml
 	mv build/out/qt-*.zip inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/protobuf-win.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/protobuf-win.yml
 	mv build/out/protobuf-*.zip inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/gitian-osx-native.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/gitian-osx-native.yml
 	mv build/out/osx-*.tar.gz inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/gitian-osx-depends.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/gitian-osx-depends.yml
 	mv build/out/osx-*.tar.gz inputs/
-	./bin/gbuild ../bitcoin/contrib/gitian-descriptors/gitian-osx-qt.yml
+	./bin/gbuild ../cornellieis/contrib/gitian-descriptors/gitian-osx-qt.yml
 	mv build/out/osx-*.tar.gz inputs/
 
  The expected SHA256 hashes of the intermediate inputs are:
 
-    b1f6f10148d4c4a1a69a58e703427578dc5a4de86eefd6b925e3abf3c8fbe542  bitcoin-deps-linux32-gitian-r9.zip
-    71e03e434af269dcbf3cb685cd1a5d51b8d2c904b67035eb4e5c1a2623b9f0df  bitcoin-deps-linux64-gitian-r9.zip
+    b1f6f10148d4c4a1a69a58e703427578dc5a4de86eefd6b925e3abf3c8fbe542  cornellieis-deps-linux32-gitian-r9.zip
+    71e03e434af269dcbf3cb685cd1a5d51b8d2c904b67035eb4e5c1a2623b9f0df  cornellieis-deps-linux64-gitian-r9.zip
     f29b7d9577417333fb56e023c2977f5726a7c297f320b175a4108cf7cd4c2d29  boost-linux32-1.55.0-gitian-r1.zip
     88232451c4104f7eb16e469ac6474fd1231bd485687253f7b2bdf46c0781d535  boost-linux64-1.55.0-gitian-r1.zip
     57e57dbdadc818cd270e7e00500a5e1085b3bcbdef69a885f0fb7573a8d987e1  qt-linux32-4.6.4-gitian-r1.tar.gz
     60eb4b9c5779580b7d66529efa5b2836ba1a70edde2a0f3f696d647906a826be  qt-linux64-4.6.4-gitian-r1.tar.gz
     60dc2d3b61e9c7d5dbe2f90d5955772ad748a47918ff2d8b74e8db9b1b91c909  boost-win32-1.55.0-gitian-r6.zip
     f65fcaf346bc7b73bc8db3a8614f4f6bee2f61fcbe495e9881133a7c2612a167  boost-win64-1.55.0-gitian-r6.zip
-    2af17b1968bd7d46b260c8d16474e1f339cde1b9e96265c80f6626ea0c2785a9  bitcoin-deps-win32-gitian-r16.zip
-    7608bdf7848101d48ba8a296cb9c29ac68193405f11d8075fb46154ff3476233  bitcoin-deps-win64-gitian-r16.zip
+    2af17b1968bd7d46b260c8d16474e1f339cde1b9e96265c80f6626ea0c2785a9  cornellieis-deps-win32-gitian-r16.zip
+    7608bdf7848101d48ba8a296cb9c29ac68193405f11d8075fb46154ff3476233  cornellieis-deps-win64-gitian-r16.zip
     963e3e5e85879010a91143c90a711a5d1d5aba992e38672cdf7b54e42c56b2f1  qt-win32-5.2.0-gitian-r3.zip
     751c579830d173ef3e6f194e83d18b92ebef6df03289db13ab77a52b6bc86ef0  qt-win64-5.2.0-gitian-r3.zip
     e2e403e1a08869c7eed4d4293bce13d51ec6a63592918b90ae215a0eceb44cb4  protobuf-win32-2.5.0-gitian-r4.zip
     a0999037e8b0ef9ade13efd88fee261ba401f5ca910068b7e0cd3262ba667db0  protobuf-win64-2.5.0-gitian-r4.zip
 
- Build bitcoind and bitcoin-qt on Linux32, Linux64, and Win32:
+ Build cornellieisd and cornellieis-qt on Linux32, Linux64, and Win32:
   
-	./bin/gbuild --commit bitcoin=v${VERSION} ../bitcoin/contrib/gitian-descriptors/gitian-linux.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION} --destination ../gitian.sigs/ ../bitcoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gbuild --commit cornellieis=v${VERSION} ../cornellieis/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION} --destination ../gitian.sigs/ ../cornellieis/contrib/gitian-descriptors/gitian-linux.yml
 	pushd build/out
-	zip -r bitcoin-${VERSION}-linux-gitian.zip *
-	mv bitcoin-${VERSION}-linux-gitian.zip ../../../
+	zip -r cornellieis-${VERSION}-linux-gitian.zip *
+	mv cornellieis-${VERSION}-linux-gitian.zip ../../../
 	popd
-	./bin/gbuild --commit bitcoin=v${VERSION} ../bitcoin/contrib/gitian-descriptors/gitian-win.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../bitcoin/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gbuild --commit cornellieis=v${VERSION} ../cornellieis/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../cornellieis/contrib/gitian-descriptors/gitian-win.yml
 	pushd build/out
-	zip -r bitcoin-${VERSION}-win-gitian.zip *
-	mv bitcoin-${VERSION}-win-gitian.zip ../../../
+	zip -r cornellieis-${VERSION}-win-gitian.zip *
+	mv cornellieis-${VERSION}-win-gitian.zip ../../../
 	popd
-        ./bin/gbuild --commit bitcoin=v${VERSION} ../bitcoin/contrib/gitian-descriptors/gitian-osx-bitcoin.yml
-        ./bin/gsign --signer $SIGNER --release ${VERSION}-osx --destination ../gitian.sigs/ ../bitcoin/contrib/gitian-descriptors/gitian-osx-bitcoin.yml
+        ./bin/gbuild --commit cornellieis=v${VERSION} ../cornellieis/contrib/gitian-descriptors/gitian-osx-cornellieis.yml
+        ./bin/gsign --signer $SIGNER --release ${VERSION}-osx --destination ../gitian.sigs/ ../cornellieis/contrib/gitian-descriptors/gitian-osx-cornellieis.yml
 	pushd build/out
-	mv Bitcoin-Qt.dmg ../../../
+	mv Cornellieis-Qt.dmg ../../../
 	popd
 	popd
 
   Build output expected:
 
-  1. linux 32-bit and 64-bit binaries + source (bitcoin-${VERSION}-linux-gitian.zip)
-  2. windows 32-bit and 64-bit binaries + installer + source (bitcoin-${VERSION}-win-gitian.zip)
-  3. OSX installer (Bitcoin-Qt.dmg)
+  1. linux 32-bit and 64-bit binaries + source (cornellieis-${VERSION}-linux-gitian.zip)
+  2. windows 32-bit and 64-bit binaries + installer + source (cornellieis-${VERSION}-win-gitian.zip)
+  3. OSX installer (Cornellieis-Qt.dmg)
   4. Gitian signatures (in gitian.sigs/${VERSION}[-win|-osx]/(your gitian key)/
 
 repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 **Linux .tar.gz:**
 
-	unzip bitcoin-${VERSION}-linux-gitian.zip -d bitcoin-${VERSION}-linux
-	tar czvf bitcoin-${VERSION}-linux.tar.gz bitcoin-${VERSION}-linux
-	rm -rf bitcoin-${VERSION}-linux
+	unzip cornellieis-${VERSION}-linux-gitian.zip -d cornellieis-${VERSION}-linux
+	tar czvf cornellieis-${VERSION}-linux.tar.gz cornellieis-${VERSION}-linux
+	rm -rf cornellieis-${VERSION}-linux
 
 **Windows .zip and setup.exe:**
 
-	unzip bitcoin-${VERSION}-win-gitian.zip -d bitcoin-${VERSION}-win
-	mv bitcoin-${VERSION}-win/bitcoin-*-setup.exe .
-	zip -r bitcoin-${VERSION}-win.zip bitcoin-${VERSION}-win
-	rm -rf bitcoin-${VERSION}-win
+	unzip cornellieis-${VERSION}-win-gitian.zip -d cornellieis-${VERSION}-win
+	mv cornellieis-${VERSION}-win/cornellieis-*-setup.exe .
+	zip -r cornellieis-${VERSION}-win.zip cornellieis-${VERSION}-win
+	rm -rf cornellieis-${VERSION}-win
 
 **Mac OS X .dmg:**
 
-	mv Bitcoin-Qt.dmg bitcoin-${VERSION}-osx.dmg
+	mv Cornellieis-Qt.dmg cornellieis-${VERSION}-osx.dmg
 
 ###Next steps:
 
@@ -182,32 +182,32 @@ Commit your signature to gitian.sigs:
 ```
 Hash: SHA256
 
-0060f7d38b98113ab912d4c184000291d7f026eaf77ca5830deec15059678f54  bitcoin-x.y.z-linux.tar.gz
+0060f7d38b98113ab912d4c184000291d7f026eaf77ca5830deec15059678f54  cornellieis-x.y.z-linux.tar.gz
 ...
 ```
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the bitcoin.org server
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the cornellieis.org server
 
-- Update bitcoin.org version
+- Update cornellieis.org version
 
   - Make a pull request to add a file named `YYYY-MM-DD-vX.Y.Z.md` with the release notes
-  to https://github.com/bitcoin/bitcoin.org/tree/master/_releases
-   ([Example for 0.9.2.1](https://raw.githubusercontent.com/bitcoin/bitcoin.org/master/_releases/2014-06-19-v0.9.2.1.md)).
+  to https://github.com/cornellieis/cornellieis.org/tree/master/_releases
+   ([Example for 0.9.2.1](https://raw.githubusercontent.com/cornellieis/cornellieis.org/master/_releases/2014-06-19-v0.9.2.1.md)).
 
   - After the pull request is merged, the website will automatically show the newest version, as well
     as update the OS download links. Ping Saivann in case anything goes wrong
 
 - Announce the release:
 
-  - Release sticky on bitcointalk: https://bitcointalk.org/index.php?board=1.0
+  - Release sticky on cornellieistalk: https://cornellieistalk.org/index.php?board=1.0
 
-  - Bitcoin-development mailing list
+  - Cornellieis-development mailing list
 
-  - Update title of #bitcoin on Freenode IRC
+  - Update title of #cornellieis on Freenode IRC
 
-  - Optionally reddit /r/Bitcoin, ... but this will usually sort out itself
+  - Optionally reddit /r/Cornellieis, ... but this will usually sort out itself
 
-- Notify BlueMatt so that he can start building [https://launchpad.net/~bitcoin/+archive/ubuntu/bitcoin](the PPAs)
+- Notify BlueMatt so that he can start building [https://launchpad.net/~cornellieis/+archive/ubuntu/cornellieis](the PPAs)
 
 - Add release notes for the new version to the directory `doc/release-notes` in git master
 

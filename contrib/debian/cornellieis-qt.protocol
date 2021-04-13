@@ -1,0 +1,11 @@
+[Protocol]
+exec=cornellieis-qt '%u'
+protocol=cornellieis
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

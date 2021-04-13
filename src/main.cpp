@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2014 The Bitcoin developers
+// Copyright (c) 2009-2014 The Cornellieis developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -27,7 +27,7 @@ using namespace std;
 using namespace boost;
 
 #if defined(NDEBUG)
-# error "Bitcoin cannot be compiled without assertions."
+# error "Cornellieis cannot be compiled without assertions."
 #endif
 
 //
@@ -73,7 +73,7 @@ void EraseOrphansFor(NodeId peer);
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Bitcoin Signed Message:\n";
+const string strMessageMagic = "Cornellieis Signed Message:\n";
 
 // Internal stuff
 namespace {
@@ -1224,8 +1224,8 @@ int64_t GetBlockValue(int nHeight, int64_t nFees)
     return nSubsidy + nFees;
 }
 
-static const int64_t nTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-static const int64_t nTargetSpacing = 10 * 60;
+static const int64_t nTargetTimespan = 6 * 60 * 60; // 6 hours
+static const int64_t nTargetSpacing = 30;
 static const int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
 //
@@ -1740,7 +1740,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("bitcoin-scriptch");
+    RenameThread("cornellieis-scriptch");
     scriptcheckqueue.Thread();
 }
 
