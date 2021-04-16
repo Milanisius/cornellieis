@@ -1,3 +1,6 @@
+
+No copyright infringements intended: Cornellieis is used as a synonym for bitcoin in all license and copyright related files
+
 Cornellieis Core integration/staging tree
 =====================================
 
