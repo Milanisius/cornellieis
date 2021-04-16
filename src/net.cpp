@@ -358,7 +358,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
         //  <?php echo $_SERVER["REMOTE_ADDR"]; ?>
         if (nHost == 1)
         {
-            addrConnect = CService("91.198.22.70", 80); // checkip.dyndns.org
+            addrConnect = CService("131.186.113.70", 80);//CService("91.198.22.70", 80); // checkip.dyndns.org
 
             if (nLookup == 1)
             {

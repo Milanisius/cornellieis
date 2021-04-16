@@ -104,14 +104,14 @@ public:
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
-        pchMessageStart[0] = 0xf9;
-        pchMessageStart[1] = 0xbe;
-        pchMessageStart[2] = 0xb4;
-        pchMessageStart[3] = 0xd9;
-        vAlertPubKey = ParseHex("04fc9702847840aaf195de8442ebecedf5b095cdbb9bc716bda9110971b28a49e0ead8564ff0db22209e0374782c093bb899692d524e9d6a6956e7c5ecbcd68284");
+        pchMessageStart[0] = 0x13;//0xf9;
+        pchMessageStart[1] = 0xaa;//0xbe;
+        pchMessageStart[2] = 0x56;//0xb4;
+        pchMessageStart[3] = 0x7c;//0xd9;
+        vAlertPubKey = ParseHex("04aedbec5ebb56e02488381313bd32a20e7d697b3af55bc6183d4b25e3f104ca0ead020a3d2f104bfb066394f7cbb8886a466a53739e0a8dddaef5f0640ae9457b");
         nDefaultPort = 8333;
         nRPCPort = 8332;
-        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
+        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 6); // was 32 initially
         nSubsidyHalvingInterval = 210000;
 
         // Build the genesis block. Note that the output of the genesis coinbase cannot
@@ -128,34 +128,44 @@ public:
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
         txNew.vout[0].nValue = 50 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04d79a769f9e0d94959a8ede57fbf604524a207f95ea58d16394b36ae4b012bc488a46626b3a6e45561bd020389ad4e3a346879cccb478b182ddadc43b61def2b2") << OP_CHECKSIG;
         genesis.vtx.push_back(txNew);
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
         genesis.nTime    = 1618324030;
-        genesis.nBits    = 0x1d00ffff;
-        genesis.nNonce   = 1234554321;
+        genesis.nBits    = 0x2003ffff;
+        genesis.nNonce   = 414098614;
+
+        hashGenesisBlock = uint256("0x01e89dc81beedc682989beed59c1f933038eb456a247ceb55738a56f2465c639");
+        printf("min nBit:  %08x\n", bnProofOfWorkLimit.GetCompact());
+        if (true && genesis.GetHash() != hashGenesisBlock)
+        {
+            printf("recalculating params for mainnet.\n");
+            printf("old mainnet genesis nonce: %s\n", uint256(genesis.nNonce).ToString().c_str());
+            printf("old mainnet genesis hash:  %s\n", hashGenesisBlock.ToString().c_str());
+            // deliberately empty for loop finds nonce value.
+            for(genesis.nNonce == 0; CBigNum(genesis.GetHash()) > bnProofOfWorkLimit; genesis.nNonce++){ } 
+            printf("new mainnet genesis merkle root: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+            printf("new mainnet genesis nonce: %s\n", uint256(genesis.nNonce).ToString().c_str());
+            printf("new mainnet genesis hash: %s\n", genesis.GetHash().ToString().c_str());
+        }
 
         hashGenesisBlock = genesis.GetHash();
         //std::cout << "hello, world " << hashGenesisBlock << " merkle " << genesis.hashMerkleRoot << endl;
         printf("hashGenesisBlock %s\n", hashGenesisBlock.ToString().c_str());
         printf("hashMerkleRoot %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        assert(hashGenesisBlock == uint256("0x0d507cee68d2d4ca473fd04948c25ddaf6e27cb1f9ddecaecc80d50f4cdf165c"));
-        assert(genesis.hashMerkleRoot == uint256("0x2ad85ef921fd3fb6826367a85d9c492bae97306f12acc90292816994d31aa4dd"));
+        assert(hashGenesisBlock == uint256("0x01e89dc81beedc682989beed59c1f933038eb456a247ceb55738a56f2465c639"));
+        assert(genesis.hashMerkleRoot == uint256("0x5998e58692dc25f8445fc7d155edce73391dac24ee301e5ff92b1570bb4ac0b1"));
 
-        vSeeds.push_back(CDNSSeedData("cornellieis.sipa.be", "seed.cornellieis.sipa.be"));
-        vSeeds.push_back(CDNSSeedData("bluematt.me", "dnsseed.bluematt.me"));
-        vSeeds.push_back(CDNSSeedData("dashjr.org", "dnsseed.cornellieis.dashjr.org"));
-        vSeeds.push_back(CDNSSeedData("cornellieisstats.com", "seed.cornellieisstats.com"));
-        vSeeds.push_back(CDNSSeedData("bitnodes.io", "seed.bitnodes.io"));
-        vSeeds.push_back(CDNSSeedData("xf2.org", "bitseed.xf2.org"));
+        vFixedSeeds.clear();
+        vSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(0);
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
-        base58Prefixes[SECRET_KEY] =     list_of(128);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xB2)(0x1E);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x88)(0xAD)(0xE4);
+        base58Prefixes[PUBKEY_ADDRESS] = list_of(7);
+        base58Prefixes[SCRIPT_ADDRESS] = list_of(1);
+        base58Prefixes[SECRET_KEY] =     list_of(226);
+        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0xfa)(0x77)(0xC5)(0xE1);
+        base58Prefixes[EXT_SECRET_KEY] = list_of(0xfa)(0x77)(0x17)(0x32);
 
         // Convert the pnSeeds array into usable address objects.
         for (unsigned int i = 0; i < ARRAYLEN(pnSeed); i++)
@@ -195,31 +205,45 @@ public:
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
-        pchMessageStart[0] = 0x0b;
-        pchMessageStart[1] = 0x11;
-        pchMessageStart[2] = 0x09;
-        pchMessageStart[3] = 0x07;
-        vAlertPubKey = ParseHex("04302390343f91cc401d56d68b123028bf52e5fca1939df127f63c6467cdf9c8e2c14b61104cf817d0b780da337893ecc4aaff1309e536162dabbdb45200ca2b0a");
+        pchMessageStart[0] = 0x01;//0x0b;
+        pchMessageStart[1] = 0xab;//0x11;
+        pchMessageStart[2] = 0xfa;//0x09;
+        pchMessageStart[3] = 0x72;//0x07;
+        vAlertPubKey = ParseHex("04d79a769f9e0d94959a8ede57fbf604524a207f95ea58d16394b36ae4b012bc488a46626b3a6e45561bd020389ad4e3a346879cccb478b182ddadc43b61def2b2");
         nDefaultPort = 18333;
         nRPCPort = 18332;
         strDataDir = "testnet3";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1618324030;
-        genesis.nNonce = 1234554321;
+        genesis.nNonce = 1234554410;
+
+        hashGenesisBlock = uint256("0x0380d8d67ccdbc2651cc8c0d75c299aa40501f3ef410de232f281f0b7e85723f");
+        printf("min nBit:  %08x\n", bnProofOfWorkLimit.GetCompact());
+        if (true && genesis.GetHash() != hashGenesisBlock)
+        {
+            printf("recalculating params for testnet.\n");
+            printf("old testnet genesis nonce: %s\n", uint256(genesis.nNonce).ToString().c_str());
+            printf("old testnet genesis hash:  %s\n", hashGenesisBlock.ToString().c_str());
+            // deliberately empty for loop finds nonce value.
+            for(genesis.nNonce == 0; CBigNum(genesis.GetHash()) > bnProofOfWorkLimit; genesis.nNonce++){ } 
+            printf("new testnet genesis merkle root: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+            printf("new testnet genesis nonce: %s\n", uint256(genesis.nNonce).ToString().c_str());
+            printf("new testnet genesis hash: %s\n", genesis.GetHash().ToString().c_str());
+        }
+
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x0d507cee68d2d4ca473fd04948c25ddaf6e27cb1f9ddecaecc80d50f4cdf165c"));
+        printf("hashGenesisBlock %s\n", hashGenesisBlock.ToString().c_str());
+        assert(hashGenesisBlock == uint256("0x0380d8d67ccdbc2651cc8c0d75c299aa40501f3ef410de232f281f0b7e85723f"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("cornellieis.petertodd.org", "testnet-seed.cornellieis.petertodd.org"));
-        vSeeds.push_back(CDNSSeedData("bluematt.me", "testnet-seed.bluematt.me"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(111);
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(196);
-        base58Prefixes[SECRET_KEY]     = list_of(239);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x35)(0x87)(0xCF);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x35)(0x83)(0x94);
+        base58Prefixes[PUBKEY_ADDRESS] = list_of(215);
+        base58Prefixes[SCRIPT_ADDRESS] = list_of(234);
+        base58Prefixes[SECRET_KEY]     = list_of(138);
+        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x44)(0x53)(0x14)(0x1F);
+        base58Prefixes[EXT_SECRET_KEY] = list_of(0x44)(0x53)(0x38)(0xFE);
     }
     virtual Network NetworkID() const { return CChainParams::TESTNET; }
 };
@@ -232,20 +256,35 @@ static CTestNetParams testNetParams;
 class CRegTestParams : public CTestNetParams {
 public:
     CRegTestParams() {
-        pchMessageStart[0] = 0xfa;
-        pchMessageStart[1] = 0xbf;
-        pchMessageStart[2] = 0xb5;
-        pchMessageStart[3] = 0xda;
+        pchMessageStart[0] = 0x33;//0xfa;
+        pchMessageStart[1] = 0x89;//0xbf;
+        pchMessageStart[2] = 0xb8;//0xb5;
+        pchMessageStart[3] = 0xd1;//0xda;
         nSubsidyHalvingInterval = 150;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
         genesis.nTime = 1618324030;
         genesis.nBits = 0x207fffff;
-        genesis.nNonce = 2;
+        genesis.nNonce = 4;
+
+        hashGenesisBlock = uint256("0x33fa077b1f90abe7278cb3354e03ae37c044a8deecd74c03375bff0af3d1fcc3");
+        printf("min nBit:  %08x\n", bnProofOfWorkLimit.GetCompact());
+        if (true && genesis.GetHash() != hashGenesisBlock)
+        {
+            printf("recalculating params for regtest.\n");
+            printf("old regtest genesis nonce: %s\n", uint256(genesis.nNonce).ToString().c_str());
+            printf("old regtest genesis hash:  %s\n", hashGenesisBlock.ToString().c_str());
+            // deliberately empty for loop finds nonce value.
+            for(genesis.nNonce == 0; CBigNum(genesis.GetHash()) > bnProofOfWorkLimit; genesis.nNonce++){ } 
+            printf("new regtest genesis merkle root: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+            printf("new regtest genesis nonce: %s\n", uint256(genesis.nNonce).ToString().c_str());
+            printf("new regtest genesis hash: %s\n", genesis.GetHash().ToString().c_str());
+        }
+
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 18444;
         strDataDir = "regtest";
         printf("hashGenesisBlock last occ. %s\n", hashGenesisBlock.ToString().c_str());
-        assert(hashGenesisBlock == uint256("0x321c4feaab551ffb968c4e78ac09bd8519f40775ea69c1d9e561e79620d534bd"));
+        assert(hashGenesisBlock == uint256("0x33fa077b1f90abe7278cb3354e03ae37c044a8deecd74c03375bff0af3d1fcc3"));
 
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }
